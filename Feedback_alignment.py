@@ -61,7 +61,13 @@ def feedback_alignment(L,Output_error,W,B,FA_W,learning_rate):
         W[i]-=learning_rate*L[i].T.dot(L_delta[i])
         B[i]-=learning_rate*L_delta[i].sum(axis=0)
     
-        
+#Compute accuracy
+def find_acc(W,B,x,y):
+   pred=feed_Forward(x,W,B)[-1]
+   pred=np.argmax(pred,1)
+   gt=np.argmax(y,1)
+   acc=np.mean(pred==gt)
+   return acc
     
 #training step
 def FANN_train(X,Y,hidden_layer_node_list=[4,3],epoch=100,learning_rate=1,batch_size=1000):
@@ -71,11 +77,11 @@ def FANN_train(X,Y,hidden_layer_node_list=[4,3],epoch=100,learning_rate=1,batch_
     
     for i in range(len(hidden_layer_node_list)):
         if i==0:
-            W.append(np.random.random((X.shape[1],hidden_layer_node_list[i]))*2-1)
+            W.append(np.random.uniform(-1,1,size=(X.shape[1],hidden_layer_node_list[i])))
         else:
-            W.append(np.random.random((hidden_layer_node_list[i-1],hidden_layer_node_list[i]))*2-1)
+            W.append(np.random.uniform(-1,1,size=(hidden_layer_node_list[i-1],hidden_layer_node_list[i])))
         B.append(np.random.random((1,hidden_layer_node_list[i])))
-    W.append(np.random.random((hidden_layer_node_list[-1],Y.shape[1]))*2-1)
+    W.append(np.random.uniform(-1,1,size=(hidden_layer_node_list[-1],Y.shape[1])))
     B.append(np.random.random((1,Y.shape[1])))
     FA_W=[np.random.uniform(-0.5,0.5,size=w.shape) for w in W]
     for j in range(epoch):
@@ -110,10 +116,8 @@ y=np.array(y)
 
 #Train Feedback alignment NN
 W,B=FANN_train(x,y,[64,32,20],300,0.003,batch_size=1000)
-pred=feed_Forward(x,W,B)[-1]  
-pred=np.argmax(pred,1)   
-    
-print(np.mean(pred==gt))    
+
+print(find_acc(W,B,x,y))
     
     
     
