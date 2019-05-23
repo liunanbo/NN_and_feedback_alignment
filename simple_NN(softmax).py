@@ -61,7 +61,14 @@ def back_propagation(L,Output_error,W,B,learning_rate):
         W[i]-=learning_rate*L[i].T.dot(L_delta[i])
         B[i]-=learning_rate*L_delta[i].sum(axis=0)
     
-        
+
+#Compute accuracy
+def find_acc(W,B,x,y):
+   pred=feed_Forward(x,W,B)[-1]
+   pred=np.argmax(pred,1)
+   gt=np.argmax(y,1)
+   acc=np.mean(pred==gt)
+   return acc   
     
 #training step
 def NN_train(X,Y,hidden_layer_node_list=[4,3],epoch=100,learning_rate=1,batch_size=1000):
@@ -109,10 +116,8 @@ y=np.array(y)
 
 #Train NN
 W,B=NN_train(x,y,[64,32,20],300,0.003,batch_size=1000)
-pred=feed_Forward(x,W,B)[-1]  
-pred=np.argmax(pred,1)   
-    
-np.mean(pred==gt)    
+
+print(find_acc(W,B,x,y))
     
     
     
