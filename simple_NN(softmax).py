@@ -70,11 +70,11 @@ def NN_train(X,Y,hidden_layer_node_list=[4,3],epoch=100,learning_rate=1,batch_si
     B=[]
     for i in range(len(hidden_layer_node_list)):
         if i==0:
-            W.append(np.random.random((X.shape[1],hidden_layer_node_list[i]))*2-1)
+            W.append(np.random.uniform(-1,1,size=(X.shape[1],hidden_layer_node_list[i])))
         else:
-            W.append(np.random.random((hidden_layer_node_list[i-1],hidden_layer_node_list[i]))*2-1)
+            W.append(np.random.uniform(-1,1,size=(hidden_layer_node_list[i-1],hidden_layer_node_list[i])))
         B.append(np.random.random((1,hidden_layer_node_list[i])))
-    W.append(np.random.random((hidden_layer_node_list[-1],Y.shape[1]))*2-1)
+    W.append(np.random.uniform(-1,1,size=(hidden_layer_node_list[-1],Y.shape[1])))
     B.append(np.random.random((1,Y.shape[1])))
 
     for j in range(epoch):
