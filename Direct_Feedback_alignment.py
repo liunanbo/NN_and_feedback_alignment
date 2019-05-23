@@ -47,13 +47,6 @@ def feed_Forward(X,W,B):
     L.append(softmax(np.dot(L[-1],W[-1])+B[-1]))    
     return L
 
-#Compute accuracy
-def find_acc(W,B,x,y):
-   pred=feed_Forward(x,W,B)[-1]
-   pred=np.argmax(pred,1)
-   gt=np.argmax(y,1)
-   acc=np.mean(pred==gt)
-   return acc
 
 #feed backward and Update weights and Bias          
 def Direct_feedback_alignment(L,Output_error,W,B,FA_W,learning_rate):
@@ -70,7 +63,14 @@ def Direct_feedback_alignment(L,Output_error,W,B,FA_W,learning_rate):
         W[i]-=learning_rate*L[i].T.dot(L_delta[i])
         B[i]-=learning_rate*L_delta[i].sum(axis=0)
     
-        
+
+#Compute accuracy
+def find_acc(W,B,x,y):
+   pred=feed_Forward(x,W,B)[-1]
+   pred=np.argmax(pred,1)
+   gt=np.argmax(y,1)
+   acc=np.mean(pred==gt)
+   return acc   
     
 #training step
 def DFANN_train(X,Y,hidden_layer_node_list=[4,3],epoch=100,learning_rate=1,batch_size=1000):
