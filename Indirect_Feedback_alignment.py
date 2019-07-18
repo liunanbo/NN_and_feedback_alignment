@@ -31,7 +31,7 @@ def softmax(x):
 
 #negative log loss function
 def loss(x,y):
-    loss=np.sum(-y*np.log(x)-(1-y)*np.log(1-x))
+    loss=np.sum(-y*np.log(x))
     return loss
 
 
